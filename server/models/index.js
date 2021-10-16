@@ -3,5 +3,5 @@ const LogModel = require('./log');
      
   module.exports = { 
     UserModel,
-    LogModel
+    LogModel,
 };
