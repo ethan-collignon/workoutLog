@@ -10,7 +10,7 @@ const { LogModel } = require('../models');  
     =======================
     */
     router.post('/create', validateJWT, async (req, res) => {
-      const { description, definition, result, } = req.body;
+      const { description, definition, result } = req.body;
       const { id } = req.user;
       const logEntry = {
         description, 
@@ -25,7 +25,22 @@ const { LogModel } = require('../models');  
     } catch (err) {
         res.status(500).json({ error: err});
     }
-    // LogModel.create(logEntry)
+    LogModel.create(logEntry)
+});
+
+    /* 
+    =======================
+      Get Logs
+    =======================
+    */
+
+router.get("/", async (req, res) => {
+  try{
+    const entries = await LogModel.findAll();
+    res.status(200).json(entries);
+  } catch (err) {
+        res.status(500).json({ error: err});
+      }
 });
 
     module.exports = router;
