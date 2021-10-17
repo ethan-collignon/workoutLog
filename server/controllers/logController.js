@@ -30,7 +30,7 @@ Log Create
 /* 
 =========================
  Get Logs
- */
+ */       
 router.get("/", async (req, res) => {
   try{
     const entries = await LogModel.findAll();
@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
  /*
 =======================
 Get Logs by id     
-*/
+*/                 
 router.get("/:id", async (req, res)=> {
   try {
     const locatedWorkout = await LogModel.findAll({
@@ -61,7 +61,7 @@ router.get("/:id", async (req, res)=> {
 
 /*
 =======================
-Update Logs  //! isnt valdating   
+Update Logs    
 */
  router.put("/update/:id", validateJWT, async (req, res) => {
   const { description, definition, result } = req.body;
@@ -85,7 +85,7 @@ Update Logs  //! isnt valdating
 
 /*
 =======================
-Delete Logs               //! isn't validating
+Delete Logs             
 */
 
 router.delete("/:id", validateJWT, async (req, res) => {
