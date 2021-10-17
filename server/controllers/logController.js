@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
   
  /*
 =======================
-Get Logs by id   
+Get Logs by id     
 */
 router.get("/:id", async (req, res)=> {
   try {
@@ -61,7 +61,7 @@ router.get("/:id", async (req, res)=> {
 
 /*
 =======================
-Update Logs  //! isnt valdating 
+Update Logs  //! isnt valdating   
 */
  router.put("/update/:id", validateJWT, async (req, res) => {
   const { description, definition, result } = req.body;
