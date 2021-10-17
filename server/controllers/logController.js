@@ -44,14 +44,17 @@ router.get("/", async (req, res) => {
  /*
 =======================
 Get Logs by id     
-*/                 
-router.get("/:id", async (req, res)=> {
+*/                  
+router.get("/:id", validateJWT, async (req, res)=> {
+  const { id } = req.params;
+
   try {
     const locatedWorkout = await LogModel.findAll({
-      where:{ id: req.params.id},
-    });
-    res
-    .status(200)
+      where:{ 
+        id: id,
+      },
+  });
+    res.status(200)
     .json({ message: "workout successfully retrieved", locatedWorkout});
   } catch (err) {
     res.status(500).json({ message: `failed to retrieve workout: ${err}`});
@@ -61,9 +64,9 @@ router.get("/:id", async (req, res)=> {
 
 /*
 =======================
-Update Logs    
+Update Logs  //! isnt validating   
 */
- router.put("/update/:id", validateJWT, async (req, res) => {
+router.put("/update/:id", validateJWT, async (req, res) => {
   const { description, definition, result } = req.body;
 
   try {
@@ -82,13 +85,39 @@ Update Logs
  });
 
 
+//  router.put("/update/:id", validateJWT, async (req, res) => {
+//    const { description, definition, result } = req.body.log;
+//    const logId = req.params.entryId;
+//    const userId = req.user.id;
+
+//  const query = {
+//           where: {
+//             id: logId,
+//             owner: userId
+//           }
+//        };
+
+//   const updatedLog = {
+//            description: description,
+//            definition: definition,
+//            result: result
+//          };
+
+//         try {
+//             const update = await LogModel.update(updatedLog, query);
+//             res.status(200).json(update);
+//             } catch (err) {
+//             res.status(500).json({ error: err });
+//             }
+//            });
 
 /*
 =======================
-Delete Logs             
+Delete Logs               //! isn't validating
 */
 
 router.delete("/:id", validateJWT, async (req, res) => {
+
   try{
     const query = {
       where: {
@@ -101,9 +130,28 @@ router.delete("/:id", validateJWT, async (req, res) => {
     })
   } catch (err) {
     res.status(500).json({
-      message: "failed to deleted"
+      message: "failed to delete"
     })
   }
-})
+});
+
+// router.delete("/:id", validateJWT, async (req, res) => {
+//   const userId = req.user.id;
+//   const logId = req.params.id;
+
+//     try {
+//          const query = {
+//           where: {
+//              id: logId,
+//             owner: userId
+//             }
+//           };
+
+//       await LogModel.destroy(query);
+//        res.status(200).json({ message: "Log Entry Deleted" });
+//      } catch (err) {
+//        res.status(500).json({ error: err });
+//      }
+//    })
 
     module.exports = router;
