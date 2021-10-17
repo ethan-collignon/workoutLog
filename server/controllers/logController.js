@@ -71,7 +71,7 @@ router.put("/update/:id", validateJWT, async (req, res) => {
 
   try {
     await LogModel.update ({ description, definition, result }, {where: { id:req.params.id }, returning: true })
-    .then((result) => {
+    .then((res) => {
       res.status(200).json({
         message: "Workout log successfully updated",
       });
@@ -150,8 +150,9 @@ router.delete("/:id", validateJWT, async (req, res) => {
 //       await LogModel.destroy(query);
 //        res.status(200).json({ message: "Log Entry Deleted" });
 //      } catch (err) {
-//        res.status(500).json({ error: err });
+//        res.status(500).json({ error: err
+        //  });
 //      }
-//    })
+//    });
 
     module.exports = router;
