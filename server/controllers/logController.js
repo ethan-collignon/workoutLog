@@ -64,56 +64,25 @@ router.get("/:id", validateJWT, async (req, res)=> {
 
 /*
 =======================
-Update Logs  //! isnt validating   
+Update Logs   //!Doesn't give correct error message when failed/says it updates other users post but doesn't actually update
 */
-router.put("/update/:id", validateJWT, async (req, res) => {
-  const { description, definition, result } = req.body;
+
+router.put("/update/:id", validateJWT, async (req, res ) => {
+  const {description, definition, result } = req.body.log;
 
   try {
-    await LogModel.update ({ description, definition, result }, {where: { id:req.params.id }, returning: true })
-    .then((res) => {
-      res.status(200).json({
-        message: "Workout log successfully updated",
-      });
-    });
-   
-  } catch (err) {
-    res.status(500).json({
-      message: `Failed to update workout log: ${err}`
-    })
-   }
- });
+    const updateLog = await LogModel.update({description,definition,result}, {where:{id: req.params.id, owner_id: req.user.id}})
+    res.status(200).json({message: "updated successfully", updateLog })
 
+  }catch (error) {
+    res.status(500).json({ message: "update failed", updateLog})
 
-//  router.put("/update/:id", validateJWT, async (req, res) => {
-//    const { description, definition, result } = req.body.log;
-//    const logId = req.params.entryId;
-//    const userId = req.user.id;
-
-//  const query = {
-//           where: {
-//             id: logId,
-//             owner: userId
-//           }
-//        };
-
-//   const updatedLog = {
-//            description: description,
-//            definition: definition,
-//            result: result
-//          };
-
-//         try {
-//             const update = await LogModel.update(updatedLog, query);
-//             res.status(200).json(update);
-//             } catch (err) {
-//             res.status(500).json({ error: err });
-//             }
-//            });
+  }
+});
 
 /*
 =======================
-Delete Logs               //! isn't validating
+Delete Logs               //! Validates but says it deletes another user's log but it actually doesn't
 */
 
 router.delete("/:id", validateJWT, async (req, res) => {
@@ -121,7 +90,8 @@ router.delete("/:id", validateJWT, async (req, res) => {
   try{
     const query = {
       where: {
-       id: req.params.id
+       id: req.params.id,
+       owner_id: req.user.id
     }
   };
     await LogModel.destroy(query);
@@ -135,24 +105,5 @@ router.delete("/:id", validateJWT, async (req, res) => {
   }
 });
 
-// router.delete("/:id", validateJWT, async (req, res) => {
-//   const userId = req.user.id;
-//   const logId = req.params.id;
-
-//     try {
-//          const query = {
-//           where: {
-//              id: logId,
-//             owner: userId
-//             }
-//           };
-
-//       await LogModel.destroy(query);
-//        res.status(200).json({ message: "Log Entry Deleted" });
-//      } catch (err) {
-//        res.status(500).json({ error: err
-        //  });
-//      }
-//    });
 
     module.exports = router;
