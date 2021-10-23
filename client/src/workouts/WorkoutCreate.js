@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, /*useEffect*/} from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 const WorkoutCreate = (props) => {
@@ -9,6 +9,7 @@ const WorkoutCreate = (props) => {
     const handleSubmit = (e) => { //function grabs and event. Because handleSubmit will be triggered as form data is submitted, we need to grab the event to prevent default page reload.
         e.preventDefault();
         fetch('http://localhost:3000/log/create/', {//fetching to the server endpoint
+            // credentials: 'include',
             method: 'POST',
             body: JSON.stringify({log: {description: description, definition: definition, result: result}}), //packaging des,def, res into object. Needs to match server expectations.
             headers: new Headers({

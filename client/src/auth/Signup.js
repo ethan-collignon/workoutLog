@@ -32,7 +32,7 @@ const Signup = (props) => {
                     <Input onChange={(e) => setUsername(e.target.value)} /*eventhandler allows us to grab input's the user typed */ name="username" value={username}/> 
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor="password">Password</Label>
+                    <Label type="password" htmlFor="password">Password</Label>
                     <Input onChange={(e) => setPassword(e.target.value)} /*eventhandler allows us to grab input's the user typed */ name="password" value={password}/>
                 </FormGroup>
                 <Button type="submit">Sign Up</Button>

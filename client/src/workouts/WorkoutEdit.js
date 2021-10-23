@@ -9,6 +9,7 @@ const WorkoutEdit = (props) => {
     const workoutUpdate = (event, workout) => { //function takes in two arguments. 1st prevents page reload. 2nd specifies the workout needing an update in our db
         event.preventDefault();
         fetch(`http://localhost:3000/log/update/${props.workoutToUpdate.id}`, {
+            // credentials: 'include',
             method: 'PUT',
             body:JSON.stringify({log: {description: editDesc, definition: editDef, result: editRes}}), //Appending an object to the body of the request with a form matching the input expected by our server
             headers: new Headers({ //specifying the content sent by this fetch

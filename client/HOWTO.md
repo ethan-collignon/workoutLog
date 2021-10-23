@@ -19,6 +19,4 @@
 
 
 BUGS TO FIX. 
-1. 403 error on Put
-2. 403 error on Post
-3. Delete button doesn't seem active. 
+1. Error on update message but code works properly.  
